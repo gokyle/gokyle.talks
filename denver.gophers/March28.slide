@@ -1,0 +1,19 @@
+Symmetric Cryptography
+
+Kyle Isom
+Hacker at Large
+https://plus.google.com/107650668295010639306/
+@kyleisom
+http://kyleisom.net
+
+* Introduction
+
+- Symmetric cryptography is also known as secret key cryptography.
+
+- Everyone shares the same key to talk securely.
+
+- There is a standard cryptosystem used for symmetric crypto: AES-CBC.
+
+* Random Data
+
+- Random data is at the heart of cryptography.
