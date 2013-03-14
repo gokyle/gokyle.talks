@@ -1,4 +1,6 @@
 Symmetric Cryptography
+March 28, 2013
+Tags: cryptography, secret key, symmetric cryptography, random data
 
 Kyle Isom
 Hacker at Large
@@ -6,14 +8,59 @@ https://plus.google.com/107650668295010639306/
 @kyleisom
 http://kyleisom.net
 
+
+* Brief Plug
+
+- Monthly series on practical cryptography using Go.
+- Based on my in-progress book: [[https://leanpub.com/gocrypto][A Working Introduction to Cryptography]]
+- Looking for reviewers: if you are interested, see me after the meetup.
+
 * Introduction
 
 - Symmetric cryptography is also known as secret key cryptography.
-
 - Everyone shares the same key to talk securely.
-
 - There is a standard cryptosystem used for symmetric crypto: AES-CBC.
+
+*Topics*
+
+- Random Data and Keys
+- What are block ciphers?
+- Block Modes
+- AES
+- Basic file encryptor
+
+* Go packages for symmetric crypto
+
+- *crypto/cipher*: contains constructs for using CBC
+- *crypto/aes*: contains constructs for using AES
+- *crypto/rand*: interface to a secure random number generator
 
 * Random Data
 
 - Random data is at the heart of cryptography.
+- _Predictability_is_the_enemy_of_crypto._
+
+* Reading Random Data
+
+- Reading `n` bytes of random data:
+
+        package symmetric
+        
+        import (
+            "crypto/rand"
+            "fmt"
+        )
+        
+        var ErrRandomFailure = fmt.Errorf("failed to read enough random data")
+        
+        // Random returns a byte slice containing size random bytes.
+        func Random(size int) (b []byte, err error) {
+                b = make([]byte, size)
+                    size, err := rand.Read(b)
+                    if err != nil {
+                            return
+                    } else if size != n {
+                            err = ErrRandomFailure
+                    }
+                return
+        }
