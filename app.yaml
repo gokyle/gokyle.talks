@@ -1,5 +1,5 @@
 application: gokyle-talks
-version: devel
+version: mar28-devel
 runtime: go
 api_version: go1
 
