@@ -186,11 +186,11 @@ http://kyleisom.net
 
 Plaintext:
 
-.image Mar28/ECB/Tux.jpg 100 100
+.image March28/ECB/Tux.jpg 100 100
 
 ECB:
 
-.image Mar28/ECB/Tux_ecb.jpg 100 100
+.image March28/ECB/Tux_ecb.jpg 100 100
 
 .link www.isc.tamu.edu/~lewing/linux/ Image copyright.
 
@@ -282,4 +282,4 @@ ECB:
 * Demo
 
 - Chat system demo
-.link github.com/gokyle/gokyle.talks/denver.gophers/Mar28/chat
+.link github.com/gokyle/marchat
