@@ -24,10 +24,12 @@ http://kyleisom.net
 *Topics*
 
 - Random Data and Keys
-- What are block ciphers?
-- Block Modes
+- Block ciphers
 - AES
-- Basic file encryptor
+- Padding
+- Combining blocks
+- Overview of file encryption
+- Demo
 
 * Go packages for symmetric crypto
 
@@ -278,6 +280,14 @@ ECB:
 	        cbc.CryptBlocks(msg, ct)
 	        return
 	}
+
+* Encrypting and Decrypting Files
+
+- Can't guarantee reading the entire file into memory
+- ex. duplicity backups
+- Need to read a block at a time, pad the last block only.
+- Need to modify unpad to ignore unpadded blocks
+- Example code: [[https://raw.github.com/kisom/gocrypto/master/chapter2/symmetric/file.go][file.go]]
 
 * Demo
 
