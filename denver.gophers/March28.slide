@@ -11,7 +11,7 @@ http://kyleisom.net
 * Brief Plug
 
 - Monthly series on practical cryptography using Go.
-- Based on my in-progress book: [[https://leanpub.com/gocrypto][A Working Introduction to Cryptography]]
+- Based on my in-progress book: [[https://leanpub.com/gocrypto][Practical Cryptography With Go]]
 - Looking for reviewers: if you are interested, see me after the meetup.
 - Code is largely based on the [[https://github.com/kisom/gocrypto/][book's example code]]
 
@@ -41,6 +41,7 @@ http://kyleisom.net
 
 - Random data is at the heart of cryptography.
 - _Predictability_is_the_enemy_of_crypto._
+- *math/rand* isn't _cryptographically_secure_.
 
 * Reading Random Data
 
@@ -118,7 +119,7 @@ http://kyleisom.net
 	        c, err := aes.NewCipher(key)
 
 - `aes` selects the appropriate version of AES based on key size.
-- AES by iteslf isn't very useful
+- AES by itself isn't very useful
 - We'd have to step through each block and encrypt them separately.
 
 * Blocks and Padding
@@ -138,47 +139,46 @@ http://kyleisom.net
 
 * Padding Function
 
-	func PadBuffer(m []byte) (p []byte, err error) {
-		mLen := len(m)
-	
-		p = make([]byte, mLen)
-		copy(p, m)
-	
-		if len(p) != mLen {
-			return p, ErrPadding
-		}
-	
-		padding := aes.BlockSize - mLen%aes.BlockSize
-	
-		p = append(p, 0x80)
-		for i := 1; i < padding; i++ {
-			p = append(p, 0x0)
-		}
-		return
-	}
+        func PadBuffer(m []byte) (p []byte, err error) {
+                mLen := len(m)
+        
+                p = make([]byte, mLen)
+                copy(p, m)
+        
+                if len(p) != mLen {
+                        return p, ErrPadding
+                }
+        
+                padding := aes.BlockSize - mLen%aes.BlockSize
+        
+                p = append(p, 0x80)
+                for i := 1; i < padding; i++ {
+                        p = append(p, 0x0)
+                }
+                return
+        }
+
 
 * Unpadding
 
-	func UnpadBuffer(p []byte) (m []byte, err error) {
-		var pLen int
-		origLen := len(p)
-	
-		for pLen = origLen - 1; pLen >= 0; pLen-- {
-			if p[pLen] == 0x80 {
-				break
-			}
-	
-			if p[pLen] != 0x0 || (origLen-pLen) > aes.BlockSize {
-				err = ErrPadding
-				return
-			}
-		}
-	
-		m = make([]byte, pLen)
-		copy(m, p)
-		return
-	}
-
+        func UnpadBuffer(p []byte) (m []byte, err error) {
+                m = p
+                var pLen int
+                origLen := len(m)
+        
+                for pLen = origLen - 1; pLen >= 0; pLen-- {
+                        if m[pLen] == 0x80 {
+                                break
+                        }
+        
+                        if m[pLen] != 0x0 || (origLen-pLen) > aes.BlockSize {
+                                err = ErrPadding
+                                return
+                        }
+                }
+                m = m[:pLen]
+                return
+        }
 
 * Block Modes
 
@@ -261,25 +261,27 @@ ECB:
 
 	var ErrInvalidIV = fmt.Errorf("invalid IV")
 
-	func Decrypt(key []byte, ct []byte) (msg []byte, err error) {
-	        c, err := aes.NewCipher(key)
-	        if err != nil {
-	                return
-	        }
-	        
-	        // Make sure we don't touch the original slice.
-	        tmp_ct := make([]byte, len(ct))
-	        copy(tmp_ct, ct)
-	        iv := tmp_ct[:aes.BlockSize]
-	        if len(iv) != aes.BlockSize {
-	                return msg, ErrInvalidIV
-	        }
-	        tmp_ct, err = UnpadBuffer(tmp_ct[aes.BlockSize:])
+        func Decrypt(key []byte, ct []byte) (msg []byte, err error) {
+                c, err := aes.NewCipher(key)
+                if err != nil {
+                        return
+                }
+        
+                // Copy the ciphertext to prevent it from being modified.
+                tmp_ct := make([]byte, len(ct))
+                copy(tmp_ct, ct)
+                iv := tmp_ct[:aes.BlockSize]
+                if len(iv) != aes.BlockSize {
+                        return msg, ErrInvalidIV
+                }
+                msg = tmp_ct[aes.BlockSize:]
+        
+                cbc := cipher.NewCBCDecrypter(c, iv)
+                cbc.CryptBlocks(msg, msg)
+                msg, err = UnpadBuffer(msg)
+                return
+        }
 
-	        cbc := cipher.NewCBCDecrypter(c, iv)
-	        cbc.CryptBlocks(msg, ct)
-	        return
-	}
 
 * Encrypting and Decrypting Files
 
@@ -292,4 +294,23 @@ ECB:
 * Demo
 
 - Chat system demo
-.link github.com/gokyle/marchat
+.link http://github.com/gokyle/marchat
+
+- Install:
+        go get github.com/gokyle/marchat
+
+* Demo Setup
+
+- Need three volunteers:
+
+- With demo key:
+        marchat -u <your name> -key demo
+
+- With wrong key:
+        marchat -u <your name> -key wrong
+
+- With no key:
+        marchat -u <your name>
+
+- Navigate to [[http://localhost:4000]]
+
