@@ -20,3 +20,19 @@ http://kyleisom.net
 
 * Cryptographic Hashes
 
+* The What and Why
+
+- Generically, a hash is  way to transform some input to a fixed-size output.
+- To be cryptographically secure, it has to be one way and unique.
+- The Secure Hashing Algorithm is the standard crypto hashing library.
+
+*Secure*Hashing*Algorithm* *output*sizes*
+
+.html 2013-04-25/sha.html
+
+We'll use SHA-512 in this talk.
+
+* Hashing a Byte Slice
+
+.play 2013-04-25/hash.go 
+
