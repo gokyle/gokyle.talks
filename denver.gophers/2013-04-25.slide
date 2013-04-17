@@ -34,5 +34,18 @@ We'll use SHA-512 in this talk.
 
 * Hashing a Byte Slice
 
-.play 2013-04-25/hash.go 
+.code 2013-04-25/hash.go 
+
+[[http://play.golang.org/p/lc3Ae5tIgi]]
+
+* Hashing an io.Reader
+
+- All `crypto.Hash` types support `New`, `Write`, and `Sum`.
+- Hash is updated as data is written to it.
+- `Sum(nil)` returns the current hash value.
+
+- Keep reading chunks of data and writing them to the hash value until EOF.
+- Return the `Sum(nil)`
+
+[[http://play.golang.org/p/8eJry66acw]]
 

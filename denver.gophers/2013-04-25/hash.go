@@ -12,5 +12,5 @@ func SHA512(message []byte) []byte {
 func main() {
 	message := []byte("Hello, world.")
 	digest := SHA512(message)
-	fmt.Printf("SHA512(%s) = %v\n", string(message), digest)
+	fmt.Printf("SHA512('%s') = %v\n", string(message), digest)
 }
