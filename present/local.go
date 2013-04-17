@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !appengine
-
 package main
 
 import (
@@ -15,16 +13,20 @@ import (
 	"os"
 	"strings"
 
-	"code.google.com/p/go.talks/pkg/present"
-	"code.google.com/p/go.talks/pkg/socket"
+	"github.com/gokyle/gokyle.talks/pkg/present"
+	"github.com/gokyle/gokyle.talks/pkg/socket"
 )
 
-const basePkg = "code.google.com/p/go.talks/present"
+const basePkg = "github.com/gokyle/gokyle.talks/present"
 
 var basePath string
 
 func main() {
-	httpListen := flag.String("http", "127.0.0.1:3999", "host:port to listen on")
+        var port string
+        if port = os.Getenv("PORT"); port == "" {
+                port = "8080"
+        }
+	httpListen := flag.String("http", "127.0.0.1:" + port, "host:port to listen on")
 	flag.StringVar(&basePath, "base", "", "base path for slide template and static resources")
 	flag.BoolVar(&present.PlayEnabled, "play", true, "enable playground (permit execution of arbitrary user code)")
 	flag.Parse()
