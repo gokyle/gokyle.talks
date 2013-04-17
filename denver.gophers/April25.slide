@@ -1,0 +1,22 @@
+Passphrase-Protecting Symmetric Keys
+25 April 2013
+
+Kyle Isom
+Hacker at Large
+https://plus.google.com/107650668295010639306/
+@kyleisom
+http://kyleisom.net
+
+* Introduction
+
+- Monthly series on [[https://leanpub.com/gocrypto/][_Practical_Cryptography_with_Go_]]
+- Looking for code reviewers for the book's example code
+
+*Today*
+- Cryptographic Hashes
+- Key Derivation Functions
+- Practical: Building a passphrase-protected file encryptor
+
+
+* Cryptographic Hashes
+
