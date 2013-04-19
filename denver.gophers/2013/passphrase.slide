@@ -54,7 +54,7 @@ We'll use SHA-512 in this talk.
 * What is a KDF?
 
 - Functions that produce secret keys from some value.
-- Input should secret (i.e. a password).
+- Input should be secret (i.e. a password).
 - One of the standard KDFs is PBKDF2.
 - Go's crypto library includes a PBKDF2 implementation.
 
