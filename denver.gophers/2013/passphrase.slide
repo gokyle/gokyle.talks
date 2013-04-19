@@ -196,7 +196,7 @@ We'll store key and salt in a structure:
 - Crude
 - No SSL protecting password
 - Suffices to show off encrypting a file
-- go get github.com/gokyle/april2013_demo
+- `go get github.com/gokyle/april2013_demo`
 
 * Uploaded data
 
