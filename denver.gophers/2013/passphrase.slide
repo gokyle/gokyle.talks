@@ -60,7 +60,7 @@ We'll use SHA-512 in this talk.
 
   import "code.google.com/p/go.crypto/pbkdf2"
 
-* PBKDF2
+* Using Go's PBKDF2
 
 * Input to PBKDF2
 
