@@ -28,13 +28,13 @@ http://kyleisom.net
 
 *Secure*Hashing*Algorithm* *output*sizes*
 
-.html 2013-04-25/sha.html
+.html passphrase/sha.html
 
 We'll use SHA-512 in this talk.
 
 * Hashing a Byte Slice
 
-.code 2013-04-25/hash.go 
+.code passphrase/hash.go 
 
 [[http://play.golang.org/p/lc3Ae5tIgi]]
 
@@ -54,13 +54,13 @@ We'll use SHA-512 in this talk.
 * What is a KDF?
 
 - Functions that produce secret keys from some value.
-- Input should secret (i.e. a password).
+- Input should be secret (i.e. a password).
 - One of the standard KDFs is PBKDF2.
 - Go's crypto library includes a PBKDF2 implementation.
 
   import "code.google.com/p/go.crypto/pbkdf2"
 
-* PBKDF2
+* Using Go's PBKDF2
 
 * Input to PBKDF2
 
@@ -188,5 +188,30 @@ We'll store key and salt in a structure:
       return
   }
 
-* Demo code:
+* Demo time
 
+* Simple File Encryption Webapp
+
+- Not how you want to do it in the real world!o
+- Crude
+- No SSL protecting password
+- Suffices to show off encrypting a file
+
+*Getting*the*Demo*Code*
+
+  go get github.com/gokyle/april2013_demo
+
+* Uploaded data
+
+.code passphrase/demo/server.go /^type Upload/,/^}/
+
+- Data contains uploaded file data
+- Name is the file name to save the file as
+
+* Encrypt
+
+.code passphrase/demo/crypto.go /^func encrypt/,/^}/
+
+* Decrypt
+
+.code passphrase/demo/crypto.go /^func decrypt/,/^}/
