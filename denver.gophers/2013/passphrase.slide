@@ -192,7 +192,7 @@ We'll store key and salt in a structure:
 
 * Simple File Encryption Webapp
 
-- Not how you want to do it in the real world!o
+- Not how you want to do it in the real world!
 - Crude
 - No SSL protecting password
 - Suffices to show off encrypting a file
