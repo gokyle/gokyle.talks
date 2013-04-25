@@ -65,7 +65,7 @@ We'll use SHA-512 in this talk.
 * Input to PBKDF2
 
 1. Cryptographic digest function
-- Keyed HMAC; in this case HMAC-SHA512.
+- Keyed cryptographic hash; Go uses HMAC combined with the selected hash function.
 2. Password
 3. Salt
 - Random value stored with key to mitigate cracking.
@@ -192,7 +192,7 @@ We'll store key and salt in a structure:
 
 * Simple File Encryption Webapp
 
-- Not how you want to do it in the real world!o
+- Not how you want to do it in the real world!
 - Crude
 - No SSL protecting password
 - Suffices to show off encrypting a file
