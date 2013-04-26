@@ -188,11 +188,11 @@ http://kyleisom.net
 
 Plaintext:
 
-.image March28/ECB/Tux.jpg 100 100
+.image symmetric/ECB/Tux.jpg 100 100
 
 ECB:
 
-.image March28/ECB/Tux_ecb.jpg 100 100
+.image symmetric/ECB/Tux_ecb.jpg 100 100
 
 .link www.isc.tamu.edu/~lewing/linux/ Image copyright.
 
