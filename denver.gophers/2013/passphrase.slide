@@ -47,7 +47,7 @@ We'll use SHA-512 in this talk.
 - Keep reading chunks of data and writing them to the hash value until EOF.
 - Return the `Sum(nil)`
 
-[[http://play.golang.org/p/8eJry66acw]]
+[[http://play.golang.org/p/Vz91kE9Pts]]
 
 * Key Derivation Functions (KDFs)
 
