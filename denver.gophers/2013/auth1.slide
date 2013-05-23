@@ -13,9 +13,9 @@ kyle@gokyle.org
 *Today*
 
 - Chapter 5: "Authentication, Part I"
-- Message Authentication Codes
-- Symmetric Crypto + MAC + HMAC
 - Introduction to Authentication
+- Symmetric Crypto + MAC + HMAC
+- Message Authentication Codes
 
 * Symmetric Cryptography
 
@@ -47,8 +47,31 @@ kyle@gokyle.org
 
 * Message Authentication Codes
 
-- It is a catastrophic failure of a cryptosystem when a message is repeated.
+- It is a *catastrophic*failure* of a cryptosystem when a message is repeated.
 - Message Authentication Codes (MAC) prevent repeated messages.
 - A MAC can be as simple as a counter that increments for each message.
 - Receiver should check to make sure message numbers aren't repeated.
 
+* Demo
+
+- Based on marchat
+- Does encryption right (even does HMAC), but doesn't verify message numbers.
+- We can spoof messages!
+- Demo is on Github: [[https://github.com/gokyle/maychat]]
+- Three components:
+1. Chat program.
+2. Sniffer -- listens for traffic, stores messages in database.
+3. Spoofer -- retransmits stored messages.
+
+  go get github.com/gokyle/maychat
+
+- Imagine this as a point-of-sale (POS) system and a central server.
+- Retransmit 'credit' messages to steal money.
+- Retransmit 'debit' messages to harass someone.
+
+* Conclusion
+
+- Don't repeat messages.
+- Keep track of messages with a message counter.
+- Confidentiality does not guarantee at
+- Confidentiality doesn't provide trust.
