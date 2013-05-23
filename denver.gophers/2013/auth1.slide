@@ -69,6 +69,13 @@ kyle@gokyle.org
 - Retransmit 'credit' messages to steal money.
 - Retransmit 'debit' messages to harass someone.
 
+* Demo: Replay Attack
+
+- node 1: "terminal"
+- node 2: "server"
+- node 1 sends "credit account 1234 $100"
+- sniffer picks this up, and it can be replayed, "crediting" account 1234
+
 * Conclusion
 
 - Don't repeat messages.
