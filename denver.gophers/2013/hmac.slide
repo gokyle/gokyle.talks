@@ -1,0 +1,54 @@
+Symmetric Crypto the Right Way
+23 May 2013
+
+Kyle Isom
+Hacker at Large
+@kyleisom
+kyle@gokyle.org
+
+* Introduction
+
+- Monthly series on [[https://leanpub.com/gocrypto/][_Practical_Cryptography_with_Go_]]
+
+*Today*
+
+- Chapter 5: "Authentication, Part I"
+- Message Authentication Codes
+- Symmetric Crypto + MAC + HMAC
+- Introduction to Authentication
+
+* Symmetric Cryptography
+
+- Confidentiality is only part of the story.
+- We also want *integrity* and *authentication*.
+- Recall that we cryptographic hashes provide integrity.
+- Did the message really come from the person it was purported to come from?
+
+* Authentication 
+
+- Proving the identity of some component.
+- Entity authentication: proving identity of an authentication.
+- Message authentication: proving the identity of a message's source.
+- Shared keys (i.e. with symmetric cryptography) makes authentication a challenge.
+
+* Challenge-Response Authentication
+
+- Client needs to send a secret to a server to prove its identity.
+- Don't want the secret being sent to the world.
+- Server sends a challenge (random value).
+- Client appends challenge to secret and hashes it, sends to server.
+- Server checks this response and proceeds appropriately.
+
+* Keyed Cryptographic Hashes
+
+- The hashes we've considered so far are "unauthenticated."
+- Keyed cryptographic hashes: integrity benefits of hash, but use key.
+- Requires both key and original input to verify.
+
+* Message Authentication Codes
+
+- It is a catastrophic failure of a cryptosystem when a message is repeated.
+- Message Authentication Codes (MAC) prevent repeated messages.
+- A MAC can be as simple as a counter that increments for each message.
+- Receiver should check to make sure message numbers aren't repeated.
+
