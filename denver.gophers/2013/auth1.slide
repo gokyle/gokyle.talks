@@ -21,7 +21,7 @@ kyle@gokyle.org
 
 - Confidentiality is only part of the story.
 - We also want *integrity* and *authentication*.
-- Recall that we cryptographic hashes provide integrity.
+- Recall that cryptographic hashes provide integrity.
 - Did the message really come from the person it was purported to come from?
 
 * Authentication 
@@ -73,5 +73,5 @@ kyle@gokyle.org
 
 - Don't repeat messages.
 - Keep track of messages with a message counter.
-- Confidentiality does not guarantee at
+- Confidentiality is not a reliable method for authentication.
 - Confidentiality doesn't provide trust.
