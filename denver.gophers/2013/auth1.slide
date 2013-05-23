@@ -61,7 +61,7 @@ kyle@gokyle.org
     h.Write([]byte("Hello, world."))
     fmt.Printf("'Hello, world.' -> %x\n", h.Sum(nil))
 
-.link http://play.golang.org/
+.link http://play.golang.org/p/CLdrPbUr1c
 
 - Append this to the end of the ciphertext, and validate it as part of the decryption.
 
