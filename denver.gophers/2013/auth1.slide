@@ -63,6 +63,7 @@ kyle@gokyle.org
 
 .link http://play.golang.org/p/CLdrPbUr1c
 
+- Compute the HMAC of the *ciphertext*
 - Append this to the end of the ciphertext, and validate it as part of the decryption.
 
 * Demo
