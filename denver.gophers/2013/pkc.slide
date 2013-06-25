@@ -28,7 +28,7 @@ Part of a monthly series on [[https://leanpub.com/gocrypto][Practical Cryptograp
 - Alice generates a key pair, and gives Bob the public part of the key.
 - Alice keeps the private component of the key secret.
 - Bob encrypts a message using Alice's public key.
-- Alice decrypts the message using her public key.
+- Alice decrypts the message using her private key.
 
 _Public_and_Secret_Key_Size_Comparisons:_
 
