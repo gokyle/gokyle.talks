@@ -160,10 +160,6 @@ the user, and other metadata), makes authenticating messages much
 more reliable than symmetric cryptography (where the key exchange
 issue remains problematic).
 
-* Pitfalls of Public-Key Cryptography
-
-- It's much slower; this can reduce its usefulness on some platforms and for high-traffic systems.
-
 * Message Lengths
 
 There's a limit to the length of the plaintext that can be encrypted
