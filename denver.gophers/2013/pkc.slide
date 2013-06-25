@@ -261,6 +261,16 @@ The value is '48656c6c6f2c20776f726c642e'.
 
 * Demo?
 
+go get github.com/gokyle/june24/client
+go get github.com/gokyle/june24/server
+go get github.com/gokyle/june24/keygen
+
+- Use keygen to generate a pair of keys: one set for the client, one for the server
+- Run the server, passing it the server's private key and the client's public key
+- Run the client, passing it the server's public key and the client's private key
+- The client sends a message to the server, which decrypts the message, capitalises it, encrypts this response, and sends this back to the client.
+
+
 * Conclusion
 
 Public key cryptography can be combined with secret key cryptography
