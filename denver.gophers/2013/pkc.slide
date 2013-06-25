@@ -269,6 +269,9 @@ go get github.com/gokyle/june24/keygen
 
 * Conclusion
 
+Public key cryptography has its limitations (in speed and message
+length) but makes key exchange much easier.
+
 Public key cryptography can be combined with secret key cryptography
 to produce much more efficient and secure messages.
 
