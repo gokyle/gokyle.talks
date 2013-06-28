@@ -30,7 +30,9 @@ looks like
     [web]
     style = gopaper
     baseurl = /
+    encoding = utf-8
 
+(Thanks, [[http://www.kamilkisiel.net][Kamil Kisiel]], for `encoding` tip!)
 * One line change
 
 The default view for my repos is the shortlog, so we should edit the
