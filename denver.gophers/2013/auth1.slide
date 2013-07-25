@@ -57,7 +57,7 @@ kyle@gokyle.org
 - Keyed cryptographic hash: uses a symmetric key + a hashing algorithm.
 - We'll use HMAC-SHA256, which is used pretty much just like a digest:
 
-    h := hmac.New(sha512.New, key)
+    h := hmac.New(sha256.New, key)
     h.Write([]byte("Hello, world."))
     fmt.Printf("'Hello, world.' -> %x\n", h.Sum(nil))
 
@@ -65,6 +65,7 @@ kyle@gokyle.org
 
 - Compute the HMAC of the *ciphertext*
 - Append this to the end of the ciphertext, and validate it as part of the decryption.
+- The HMAC is called the *message*tag*.
 
 * Demo
 

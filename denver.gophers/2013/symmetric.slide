@@ -17,7 +17,7 @@ Hacker at Large
 
 - Symmetric cryptography is also known as secret key cryptography.
 - Everyone shares the same key to talk securely.
-- There is a standard cryptosystem used for symmetric crypto: AES-CBC.
+- Standard symmetric cryptographic systems: AES-CBC, AES-CTR (we use CBC in this talk)
 
 *Topics*
 
@@ -31,7 +31,7 @@ Hacker at Large
 
 * Go packages for symmetric crypto
 
-- *crypto/cipher*: contains constructs for using CBC
+- *crypto/cipher*: contains constructs for using CBC and CTR
 - *crypto/aes*: contains constructs for using AES
 - *crypto/rand*: interface to a secure random number generator
 
@@ -289,6 +289,46 @@ ECB:
 - Need to modify unpad to ignore unpadded blocks
 - Example code: [[https://raw.github.com/kisom/gocrypto/master/chapter2/symmetric/file.go][file.go]]
 
+* CTR Mode: Encryption
+
+    func Encrypt(key []byte, in []byte) (out []byte, err error) {
+        var iv []byte 
+        if iv, err = GenerateIV(); err != nil {
+            return
+        }
+        
+        out = make([]byte, len(in)+aes.BlockSize)
+        copy(out, iv)
+        
+        c, err := aes.NewCipher(key)
+        if err != nil {
+            return
+        }
+        ctr := cipher.NewCTR(c, out[:aes.BlockSize])
+        ctr.XORKeyStream(out[aes.BlockSize:], in)
+        return
+    }
+
+* CTR Mode: Decryption
+
+    func Decrypt(key []byte, in []byte) (out []byte, err error) {
+        if len(in) < aes.BlockSize {
+            return nil, errinvalidCiphertext
+        }
+        
+        c, err := aes.NewCipher(key)
+        if err != nil {
+            return
+        }
+        
+        iv := in[:aes.BlockSize]
+        ct := in[aes.BlockSize:]
+        ctr := cipher.NewCTR(c, iv)
+        out = make([]byte, len(ct))
+        ctr.XORKeyStream(out, ct)
+        return
+    }
+
 * Demo
 
 - Chat system demo
@@ -312,3 +352,7 @@ ECB:
 
 - Navigate to [[http://localhost:4000]]
 
+* Conclusion
+
+- Symmetric crypto doesn't cover authentication; we'll cover message tags in a few talks.
+- Padding can be done wrong; CTR mode doesn't require padding so is often more useful.

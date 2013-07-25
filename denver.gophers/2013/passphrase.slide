@@ -30,7 +30,7 @@ http://kyleisom.net
 
 .html passphrase/sha.html
 
-We'll use SHA-512 in this talk.
+We'll use SHA-256 in this talk.
 
 * Hashing a Byte Slice
 
@@ -72,7 +72,8 @@ We'll use SHA-512 in this talk.
 4. Number of iterations
 - We'll use 16384 iterations.
 5. Secret key length
-- We're using AES-256, so this is 32 bytes.
+- We're using AES-128, so this is 16 bytes.
+- Next month, when we cover message tags, we would want to increase the key size to include the HMAC key.
 
 We'll store key and salt in a structure:
 
@@ -118,11 +119,7 @@ We'll store key and salt in a structure:
           size = len(pk.Key)
       }
   
-      for i := 0; i < size; i++ {
-          matched += subtle.ConstantTimeByteEq(new_key.Key[i], pk.Key[i])
-      }
-  
-      passed := matched == size
+      passed := (subtle.ConstantTimeCompare(pk.Key, new_key) == 1)
       if len(new_key.Key) != len(pk.Key) {
           return false
       }
@@ -133,7 +130,7 @@ We'll store key and salt in a structure:
 
 - Fail as late as possible.
 - Deny attacker as much information as possible.
-- `ConstantTimeByteEq` is very important!
+- `ConstantTimeCompare` is very important!
 
 * Let's encrypt a file with a passphrase
 
