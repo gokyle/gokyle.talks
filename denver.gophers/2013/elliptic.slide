@@ -226,7 +226,7 @@ with HMAC-SHA-256 message tags.
 
 - AES-CTR and AES-CBC are two of the symmetric schemes specified in [SEC1].
 
-        // Symmetrically encrypt message with AES-256. The symEncrypt function
+        // Symmetrically encrypt message with AES-128. The symEncrypt function
         // should ensure the ciphertext length is greater than the AES block size.
         em, err := symEncrypt(rand, Ke, m)
         if err != nil {
