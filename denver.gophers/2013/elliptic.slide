@@ -303,10 +303,12 @@ Receiver:
 
 _Notice_that_the_last_message_was_received_in_ *seconds*
 
+
 * Conclusion
 
 - Elliptic curves are orders of magnitude faster than RSA.
 - Key sizes are much smaller: more efficient to transmit public keys over the network.
+- Why isn't ECC used more? Patents, until recently. (compare to ELG-E/DSA v. RSA in late 90s)
 
 * References
 
