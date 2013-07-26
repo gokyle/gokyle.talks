@@ -36,8 +36,8 @@ Part of a monthly series on [[https://leanpub.com/gocrypto][Practical Cryptograp
 
     var DefaultCurve = elliptic.P256()
 
-- NIST P256 provides us with an equivalent to a 2048-bit RSA key, or a 128-bit AES key.
-- There are alternative, non-NIST curves. The most common, and preferred, curve is curve 22519. This curve works a little differently, but support is in the `code.google.com/p/go.crypto/curve25519` package.
+- NIST P256 provides us with an equivalent to a 3072-bit RSA key, or a 128-bit AES key.
+- There are alternative, non-NIST curves. The most common, and preferred, curve is curve 25519. This curve works a little differently, but support is in the `code.google.com/p/go.crypto/curve25519` package.
 - The standard for elliptic curve cryptography is specified in [SEC1].
 
 * Key Formats
@@ -54,11 +54,11 @@ Part of a monthly series on [[https://leanpub.com/gocrypto][Practical Cryptograp
         X, Y *big.Int // math/big multiprecision arithmetic numbers.
     }
 
-- `crypto/ecdsa`'s GenerateKey:
+- crypto/ecdsa's GenerateKey:
 
     func GenerateKey(c elliptic.Curve, rand io.Reader) (priv *PrivateKey, err error)
 
-- `crypto/elliptic`'s GenerateKey:
+- crypto/elliptic GenerateKey:
 
     func GenerateKey(curve Curve, rand io.Reader) (priv []byte, x, y *big.Int, err error)
 
@@ -192,7 +192,7 @@ Part of a monthly series on [[https://leanpub.com/gocrypto][Practical Cryptograp
 
 My ECIES implementation: [[https://github.com/gokyle/ecies]]
 
-Let's look at a simplified version of ECIES tailored to AES-256
+Let's look at a simplified version of ECIES tailored to AES-128
 with HMAC-SHA-256 message tags.
 
 
