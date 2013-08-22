@@ -46,10 +46,10 @@ Keys are provided and used as simply `[]byte` values (with type aliases to help 
 
 * The Cryptobox security model
 
-- Cryptobox operates on discrete messages. As an example, all of the functions dealing with messages operate on byte slices.
-- No attempt is made to provide any anonymity. Particularly, the size of messages is not disguised.
-- Boxes by themselves provide no mechanism for preventing a message from being repeated. The protocol that is using CryptoBox must ensure that the exact same message isn't repeated; perhaps by including a non-repeating nonce or counter value.
-- Assume good entropy (source of random data). This is a dangerous assumption for the system as a whole, but it's not solveable at the Cryptobox level.
+- Cryptobox operates on discrete messages
+- No attempt is made to provide any anonymity
+- Boxes by themselves won't prevent a message from being repeated.
+- Assume good entropy (source of random data).
 
 * An example: Alice and Bob
 
@@ -72,7 +72,7 @@ Now, both Alice and Bob have their key pair:
 All of the cryptobox packages provide a pair of functions to secure and retrieve a message.
 
 - `Seal` will "lock" the message in a secure box,
-- 'Open' will "unlock" this box, authenticate the message, and return the original message.
+- `Open` will "unlock" this box, authenticate the message, and return the original message.
 
 The public-key packages also support signing the messages with a digital signature with the pair of functions
 
@@ -180,7 +180,6 @@ Test machine is a quad-core 2.6 GHz i5 running OpenBSD.
 
 The "secret" level packages:
 
-	?       github.com/gokyle/cryptobox     [no test files]
 	PASS
 	BenchmarkUnsignedSeal        500           6863606 ns/op
 	BenchmarkSignAndSeal         200           9317677 ns/op
@@ -231,38 +230,40 @@ box uses secretbox as the base. Remember our three objectives?
 - Confidentiality: secretbox uses AES-128 in CTR mode for secrecy.
 - Integrity and authenticity: HMAC-SHA-256 message tags are used to cover both integrity and authenticity.
 
-When `box` locks a message, it uses the same `SharedKey` mechanism to build a secretbox key. For performance and higher-security, box uses elliptic curves on the NISP P256 curve. Locking is done using an ephemeral key, which can also be used for forward secrecy.
+When `box` locks a message, it uses the same `SharedKey` mechanism to build a secretbox key. For performance and higher-security, box uses elliptic curves on the NIST P256 curve. Locking is done using an ephemeral key, which can also be used for forward secrecy.
 
-* What are some of the details?
+Go's standard library has all the underlying packages that are needed for this, which means Cryptobox doesn't have any external dependencies.
+
+* Writing cryptographic code
 
 Writing cryptographic code is tricky. Most of the time, cryptographic systems aren't attacked via their ciphers, but through side-channels. Care has to be taken to avoid leaking additional information as much as possible.
 
-The `crypto/subtle` package has functions for comparing values in a constant time. Cryptobox makes heavy use of this. A practical example of where this comes into play is message tagging (the HMAC-SHA-256). A normal `bytes.Equal` approach stops as soon as two bytes don't match. An attacker can measure the time differences between different tags and use this to recover the message underneath.
+The `crypto/subtle` package has functions for comparing values in a constant time. Cryptobox makes heavy use of this.
 
 Another gotcha is in the case where decryption is done before checking the message tag; this also leaks information attackers can (and have) exploited.
 
 * Ensuring correctness
 
-It's particularly important to have a solid test suite when writing cryptographic code and systems: use tests to validate assumptions, and to ensure the converse. For example, we can test to make sure that encrypting and decrypting a message gives us the original message. However, there's a few other tests we should be running as well:
+It's particularly important to have a solid test suite when writing cryptographic code and systems: use tests to validate assumptions, and to ensure the converse.
 
-- I shouldn't be able to use a different key to decrypt the message.
-- Furthermore, if I change a bit in the key, the decryption should fail.
-- If I change a bit in the message, the decryption should fail.
+Some test examples:
 
-The idea is to test every way an attacker might try to tamper with a message, and to ensure that the system doesn't fail within the security model.
-
-Each of the Cryptobox packages ships with tests; they are run very frequently during development to ensure proper behaviour of the system.
+- A message that is encrypted should be decryptable to recover the original message.
+- An attacker shouldn't be able to use a different key to decrypt the message.
+- Furthermore, if an attacker changes even single a bit in the key, the decryption should fail.
+- If an attacker changes a bit in the message, the decryption should fail.
 
 * Road map
 
 - In the near future, support for signatures will be added so that a message can be signed without locking it.
-- At some point, some of the box formats will be tweaked to make porting to other languages easier.
+- At some point, some of the public-key box formats will be tweaked to make porting to other languages easier.
 - There are partially-completed ports to C and Python; these should be finished up.
 - The GCM cipher mode needs to be ported over to Go; this will improve performance.
+- Build in support for shared boxes.
 
 * Links
 
-- The cryptobox project has its [[http://cryptobox.tyrfingr.is][own site]]; there's an in-progress [[http://cryptobox.tyrfingr.is/cryptobox.pdf][paper describing the project]] as well.
+- The cryptobox project has its [[http://cryptobox.tyrfingr.is][own site]]; there's an in-progress [[http://cryptobox.tyrfingr.is/cryptobox.pdf][paper describing the project]], as well.
 - Github: [[https://github.com/gokyle/cryptobox]]
 - Godoc: [[http://godoc.org/github.com/gokyle/cryptobox]]
 
