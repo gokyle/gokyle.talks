@@ -263,9 +263,9 @@ One of the key goals here is to give developers a simple API to secure messages,
 
 * Links
 
-- The cryptobox project has its [[http://cryptobox.tyrfingr.is][own site]]; there's an in-progress [[http://cryptobox.tyrfingr.is/cryptobox.pdf][paper describing the project]] as well.
-- The project is on Github: [[https://github.com/gokyle/cryptobox]].
-- The packages are well-documented: Godoc: [[http://godoc.org/github.com/gokyle/cryptobox]].
+If you'd like to read more on the project, feel free to stop by the  [[http://cryptobox.tyrfingr.is][Cryptobox site]]; among other things, there's an in-progress [[http://cryptobox.tyrfingr.is/cryptobox.pdf][paper describing the project]] available. You can also look at the [[https://github.com/gokyle/cryptobox][Github page]] or check out the [[http://godoc.org/github.com/gokyle/cryptobox][Godocs]].
+
+Also, please feel free to send feedback to kyle@gokyle.net.
 
 
 
