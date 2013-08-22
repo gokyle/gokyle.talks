@@ -44,6 +44,13 @@ Cryptobox provides packages for two different levels of security, "secret" and "
 
 Keys are provided and used as simply `[]byte` values (with type aliases to help you in your code), making them easy to use in actual code.
 
+* The Cryptobox security model
+
+- Cryptobox operates on discrete messages. As an example, all of the functions dealing with messages operate on byte slices.
+- No attempt is made to provide any anonymity. Particularly, the size of messages is not disguised.
+- Boxes by themselves provide no mechanism for preventing a message from being repeated. The protocol that is using CryptoBox must ensure that the exact same message isn't repeated; perhaps by including a non-repeating nonce or counter value.
+- Assume good entropy (source of random data). This is a dangerous assumption for the system as a whole, but it's not solveable at the Cryptobox level.
+
 * An example: Alice and Bob
 
 When it is two peers communicating, we can use the normal functions provided in `box` (or `stoutbox`, as the security requirements change).
@@ -207,6 +214,15 @@ The "top secret" level packages:
 	ok      github.com/gokyle/cryptobox/strongbox   3.482s
 
 - The "top secret" security comes at a price: `stoutbox` is roughly 10x slower than `box`.
+
+* The developer's role
+
+Cryptobox is a featureful toolkit, but it doesn't do everything. Particularly, developers are responsible for
+
+- Ensuring messages don't repeat,
+- Providing good entropy,
+- Securing private and secret keys,
+- Implementing proper security measures throughout the site.
 
 * Under the hood
 
