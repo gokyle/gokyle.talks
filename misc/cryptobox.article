@@ -10,6 +10,8 @@ Developers who want to use crypto are often turned away by the difficulty of mak
 
 Cryptobox is a set of packages modeled after [[http://nacl.cr.yp.to/][djb's NaCl]] library that aims to provide developers with a well-documented, properly-written, set of tools for proper encryption. It uses NIST-standard ciphers, including the NIST elliptic curves, AES, and HMAC-SHA2.
 
+The end goal is to have interoperable packages/libraries in multiple languages; the reference (and currently only complete) implementation is in Go, with ports to C and Python underway. The challenge in porting Cryptobox to languages other than Go is the difficulty in selecting appropriate cryptographic libraries. Go has outstanding cryptographic support, which also leads to the Go package having no external dependencies.
+
 * What are we trying to do, anyways?
 
 Most secure systems are trying to provide security for discrete chunks of data. We'll call these _messages_.
@@ -43,6 +45,8 @@ Cryptobox provides packages for two different levels of security, "secret" and "
 - `strongbox` provides "top secret" level symmetric cryptography, and `stoutbox` provides "top secret" level public-key cryptography. The "top secret" level is appropriate for messages that need to stay secure for a much longer period of time (within 50 years). This would be appropriate, for example, for financial information or health records.
 
 Keys are provided and used as simply `[]byte` values (with type aliases to help you in your code), making them easy to use in actual code. Users don't have to worry about marshaling or parsing keys; they can be handled the same as any other `[]byte` value.
+
+The package's syntax is heavily inspired by the [[http://godoc.org/code.google.com/p/go.crypto/nacl][nacl package]].
 
 * The Cryptobox security model
 
