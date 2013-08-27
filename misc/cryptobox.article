@@ -72,8 +72,6 @@ Now, both Alice and Bob have their key pair:
 - The `priv` value should be kept secret. This should never be distributed to anyone else.
 - The `pub` value can be given out to anybody and everybody that needs to communicate with the owner.
 
-* Seal and Open
-
 All of the cryptobox packages provide a pair of functions to secure and retrieve a message.
 
 - `Seal` will "lock" the message in a secure box,
@@ -83,8 +81,6 @@ The public-key packages also support signing the messages with a digital signatu
 
 - `SignAndSeal` signs the message and locks it in a box.
 - `OpenAndVerify` unlocks the box, checks the signature, and returns the original message.
-
-* Back to Alice and Bob
 
 If Alice wants to send a message to Bob, she first needs his public key. We'll say that she's retrieved it, and has it stored in `peer`.
 
@@ -110,6 +106,8 @@ Once Bob receives the message, he just needs to unlock the box with his private 
     if !ok {
         // Opening the box failed.
     }
+
+There are also functions for just signing and verifying messages (`Sign` and `Verify`) that can be used to build protocols from the Cryptobox building blocks. There are also functions for signing and verifying keys (`SignKey` and `VerifySignedKey`). Using these as building blocks is covered in the [[http://cryptobox.tyrfingr.is/files/cryptobox_guidebook.pdf][Cryptobox Guidebook]].
 
 * Alice and Bob and Charlie (oh my)
 
@@ -141,6 +139,8 @@ Similarly, Charlie can open the box with
 
 	message, ok := box.OpenShared(sbox, charliePub)
 	// Check for errors opening the box
+
+There are functions for signing shared messages, too, using `SignAndSealShared` and `OpenSharedAndVerify`.
 
 * How fast is it?
 
