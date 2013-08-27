@@ -98,7 +98,7 @@ If Alice wants to send a message to Bob, she first needs his public key. We'll s
 		// error handling for the write
 	}
 
-Once Bob receives the message, he just needs to unlock the box with his private key:
+Once Bob receives the message, he just needs to unlock the box with his private key (stored in `priv`):
 
     var locked = make([]byte, MaxMessageSize)
     n, err := conn.Read(locked)
@@ -136,12 +136,12 @@ Note that if Alice wants to seal the message to herself as well, she needs to ad
 
 Now, Bob can open the box with
 
-	message, ok := box.OpenShared(sbox, bobPub)
+	message, ok := box.OpenShared(sbox, bobPriv, bobPub)
 	// Check for errors opening the box
 
 Similarly, Charlie can open the box with
 
-	message, ok := box.OpenShared(sbox, charliePub)
+	message, ok := box.OpenShared(sbox, charliePriv, charliePub)
 	// Check for errors opening the box
 
 There are functions for signing shared messages, too, using `SignAndSealShared` and `OpenSharedAndVerify`.
