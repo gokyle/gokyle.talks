@@ -56,7 +56,7 @@ The [[http://cryptobox.tyrfingr.is/files/cryptobox_spec.pdf][Cryptobox specifica
 
 4. It is assumed that system has a source of good entropy (source of random data). This is a dangerous assumption for the system as a whole, but it's not solveable at the Cryptobox level.
 
-* An example: Alice and Bob
+* Alice and Bob
 
 When it is two peers communicating, we can use the normal functions provided in `box` (or `stoutbox`, as the security requirements change).
 
