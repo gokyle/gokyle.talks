@@ -24,6 +24,14 @@ We have three main objectives we're trying to satisfy when building secure syste
 
 Just as properly-written software needs a specification, we need a security specification. It should cover what we're protecting against, what our threats are, and under what conditions we should reasonably expect the system to remain secure. *Every* system can be broken in some way, but we can reason about what point we're comfortable with our security. We codify our reasoning, expectations, and assumptions in a written specification called the _security_model_.
 
+* How does it compare to other efforts?
+
+There are, of course, other cryptographic libraries available.
+
+- OpenSSL: OpenSSL provides a number of low-level cryptographic tools, but these are easily misused. Other components are designed for the SSL protocol. Cryptobox aims to create a toolkit for building new protocols, and doesn't include any finite-field cryptography, which virtually entirely how SSL is used.
+
+- KeyCzar: KeyCzar is based on finite-field cryptographic algorithms (RSA and DSA). These algorithms are slower than the elliptic curve cryptography used by Cryptobox; ECC is also widely considered the direction that public key cryptography needs to take in order to provide security in the future.
+
 * Two flavours of cryptography
 
 There are two kinds of cryptography:
