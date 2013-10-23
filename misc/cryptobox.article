@@ -162,11 +162,11 @@ The "secret" level packages:
 	BenchmarkSharedSignAndSeal           100          13569477 ns/op
 	BenchmarkSharedUnsignedOpen         1000           2757003 ns/op
 	BenchmarkOpenSharedSigned            500           6272596 ns/op
-	ok      github.com/gokyle/cryptobox/box 28.967s
+	ok      github.com/cryptobox/gocryptobox/box 28.967s
 	PASS
 	BenchmarkSeal      				   20000             90427 ns/op
 	BenchmarkOpen      				   20000             86145 ns/op
-	ok      github.com/gokyle/cryptobox/secretbox   5.331s
+	ok      github.com/cryptobox/gocryptobox/secretbox   5.331s
 
 The "top secret" level packages:
 
@@ -180,11 +180,11 @@ The "top secret" level packages:
         BenchmarkSharedSignAndSeal            20         121379566 ns/op
         BenchmarkSharedUnsignedOpen          100          21546241 ns/op
         BenchmarkOpenSharedSigned             20          67541864 ns/op
-        ok      github.com/gokyle/cryptobox/stoutbox    28.892s
+        ok      github.com/cryptobox/gocryptobox/stoutbox    28.892s
         PASS
         BenchmarkSeal   			   	   20000             80755 ns/op
         BenchmarkOpen      				   20000             77057 ns/op
-        ok      github.com/gokyle/cryptobox/strongbox   4.748s
+        ok      github.com/cryptobox/gocryptobox/strongbox   4.748s
 
 The "top secret" security comes at a price: `stoutbox` is roughly 10x slower than `box`.
 
@@ -241,7 +241,7 @@ One of the key goals here is to give developers a simple API to secure messages,
 
 * Links
 
-If you'd like to read more on the project, feel free to stop by the  [[http://cryptobox.tyrfingr.is][Cryptobox site]]. On the site is the [[http://cryptobox.tyrfingr.is/files/cryptobox_spec.pdf][Cryptobox specification]]. I've also been working on a [[http://cryptobox.tyrfingr.is/files/cryptobox_guidebook.pdf][guidebook]] that shows developers how to use Cryptobox safely in their code, covering topics like key storage, security models, and forward secrecy. You can also look at the [[https://github.com/gokyle/cryptobox][Github page]] or check out the [[http://godoc.org/github.com/gokyle/cryptobox][Godocs]].
+If you'd like to read more on the project, feel free to stop by the  [[http://cryptobox.tyrfingr.is][Cryptobox site]]. On the site is the [[http://cryptobox.tyrfingr.is/files/cryptobox_spec.pdf][Cryptobox specification]]. I've also been working on a [[http://cryptobox.tyrfingr.is/files/cryptobox_guidebook.pdf][guidebook]] that shows developers how to use Cryptobox safely in their code, covering topics like key storage, security models, and forward secrecy. You can also look at the [[https://github.com/cryptobox/gocryptobox][Github page]] or check out the [[http://godoc.org/github.com/cryptobox/gocryptobox][Godocs]].
 
 Also, please feel free to send feedback to kyle@gokyle.net.
 
