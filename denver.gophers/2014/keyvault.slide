@@ -184,4 +184,16 @@ The security context store is the most complex part.
 
 	go get github.com/gokyle/keyvault/passvault/passvault-cli
 
+- Add a secret
+	passvault-cli -a pv.dropsonde.net:8443 -u <user> -f -id <name> secret.txt put
+
+- Get a secret
+	passvault-cli -a pv.dropsonde.net:8443 -u <user> -id <name> get
+
+- Delete a secret
+	passvault-cli -a pv.dropsonde.net:8443 -u <user> -id <name> delete
+
+- Provision an 8-byte secret key
+	passvault-cli -a pv.dropsonde.net:8443 -u <user> -id <name> -l 80 provision
+
 - Dumping the log
