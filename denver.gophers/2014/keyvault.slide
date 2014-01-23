@@ -1,0 +1,187 @@
+Keyvault: Secure Storage for Secrets
+2014 January 23
+
+Kyle Isom
+@kyleisom
+
+* What is keyvault?
+
+- Embedded, secure data store for secrets (i.e. crypto keys)
+- Lets the host application bring its own authentication
+- Vaults are stored as JSON
+- Append-only log
+- Not "web-scale" though
+- Server technically can decrypt all secrets, not zero-knowledge
+- I wrote an article on the design choices and the process: [[http://kyleisom.net/blog/2014/01/23/building-a-key-server/]]
+
+*Why?*
+- I needed a way to store secrets for small systems
+
+* The source
+
+- Repo is on Github: [[https://github.com/gokyle/keyvault#readme]]
+- Keyvault code: [[https://github.com/gokyle/keyvault/tree/master/keyvault]]
+- Passvault demo: [[https://github.com/gokyle/keyvault/tree/master/passvault]]
+
+* Core components
+
+- Key store
+- Security context store (for authentication)
+- Revocation store
+- Log
+- Nearly everything has metadata, so host application can store information I didn't think of
+
+    type Metadata map[string]string
+
+The security context store is the most complex part.
+
+* Secret store
+
+- Makes recovering secrets from memory more difficult for an attacker
+- Each secret has a unique identifier (a name) and a security label
+
+	type Key struct {
+		Secret   []byte
+		ID       string
+		Label    string
+		Metadata Metadata
+	}
+- Host can add additional information (key expiration, allowed uses, etc...) through metadata
+
+* Revocation store
+
+- For vaults that are dealing with public keys (and perhaps in other cases), it's useful to be able to revoke keys or certificates.
+- Revocation store is append-only
+
+	type Revocation struct {
+		ID        string
+		Timestamp int64
+		Metadata  Metadata
+	}
+
+- The revocation can contain additional information in the metadata (for example, the reason for revocation)
+
+* The log
+
+- A secure system should be auditable
+- A secure log must be append-only
+- Everything is logged
+
+	type LogEntry struct {
+		Action    string
+		Timestamp int64
+		Metadata  Metadata
+	}
+- Example
+	2014-01-14 17:17:19 -0700 MST initialised
+	2014-01-14 17:17:20 -0700 MST initadmin (context=admin, success=true)
+	2014-01-14 17:17:20 -0700 MST shutdown
+	2014-01-14 17:17:25 -0700 MST open
+	2014-01-14 17:17:25 -0700 MST shutdown
+	2014-01-14 17:22:11 -0700 MST open
+	2014-01-14 17:22:49 -0700 MST addcontext (context=test, success=true)
+	2014-01-14 17:22:49 -0700 MST sync (success=true)
+	2014-01-14 17:24:14 -0700 MST provision (id=test0, label=test, success=true)
+
+* Security contexts
+
+- The hardest part to get right
+- Building a generic authentication system is difficult
+- Pass the buck to the host application
+
+	type ContextCheck func(Context, authInfo ...interface{}) bool
+
+	type Context struct {
+		Label    string
+		Metadata Metadata
+	}
+
+- Host stores authentication information in metadata
+- `ContextCheck` functions let the host decide how to authenticate
+- `keyvault` can still securely store authentication credentials
+- There is a distinction between the single administrative context and the general-usage contexts
+- Admin is responsible for administering the vault: adding contexts, viewing the log, performing revocations
+- General-usage contexts can get, upload, and delete secrets under their context
+
+* Persistence
+
+- Key store is probably going to need to be file-backed
+- Secure the core components, store this and some metadata in a JSON file
+
+	{
+	    "Version": 1
+	    "Salt": "E6aYwWnIWz3iG90moXRygQ==",
+	    "Tag": "nuZNGEEanlKfxqdCiEaiz4B8nrfXLq1GoQdARZtlzZJh8aropWgLlJL7tC0qPp+pll
+	            8TlbFCY1D2i88iK8rwhw==",
+	    "KeyVault": <base64 data>
+	}
+- Version refers to file format version, allows changes to the format later
+- Salt is really any additional authentication information needed to restore the key (like an Scrypt salt)
+- The tag is a message authentication code from the version + salt (keyvault has its own MAC)
+
+* Passvault: a password based vault
+
+- Provides a user/password-based secret store with an JSON API
+- Vault itself is secured with a password, as well
+- Example of using the keyvault in a system, particularly in using contexts right
+- There is a running demo: [[https://pv.dropsonde.net:8443]]
+- Responses:
+
+	type Response struct {
+		Success bool              `json:"success"`
+		Message string            `json:"message,omitempty"`
+		Data    map[string]string `json:"data,omitempty"`
+	}
+- For example
+
+	$ curl -k https://pv.dropsonde.net:8443
+	{"success":true,"data":{"version":"1.0.0"}}
+
+- Autosyncs every 10 minutes, and after any modifications
+
+* Contexts
+
+- In `passvault` security contexts, the label contains the username.
+- Metadata has a `salt` and `hash` key, used with Scrypt (stored hex-encoded)
+
+	// userHash takes a password and salt and derives the password hash
+	// using Scrypt.
+	func userHash(password, salt []byte) (key []byte, err error) {
+		key, err = scrypt.Key(password, salt, 16384, 8, 1, 32)
+		return
+	}
+* passvault ContextCheck
+
+- [[https://github.com/gokyle/keyvault/blob/master/passvault/access.go#L17]]
+- The password is passed to the function
+- Context is checked to make sure it has a salt and hash
+- Context hex decodes the salt and hash
+- Ensures password is a non-empty string
+- Uses salt and password to generate a password hash
+- If the stored hash and generated hash match, authentication succeeds
+- Hash and salt are stored encrypted in keyvault, but the server is responsible for the authentication
+
+* Initialising the vault
+
+- Create a new salt for Scrypt
+- Read a password from the console for the vault
+- Generate a key using this password and the salt
+- Create a new salt for the admin user
+- Read a password from the console for the admin user
+- Initialise the admin context
+
+* Opening the vault
+
+- Read the salt from the vault's JSON file
+- Read a password
+- Generate a key
+- ????
+- Profit!
+
+* Demo
+
+- There is a passvault CLI to make things easier:
+
+	go get github.com/gokyle/keyvault/passvault/passvault-cli
+
+- Dumping the log
