@@ -124,7 +124,7 @@ The security context store is the most complex part.
 - Provides a user/password-based secret store with an JSON API
 - Vault itself is secured with a password, as well
 - Example of using the keyvault in a system, particularly in using contexts right
-- There is a running demo: [[https://pv.dropsonde.net:8443]]
+- There is a running demo: [[https://pv.dropsonde.net]] (only for tonight)
 - Responses:
 
 	type Response struct {
@@ -134,7 +134,7 @@ The security context store is the most complex part.
 	}
 - For example
 
-	$ curl -k https://pv.dropsonde.net:8443
+	$ curl -k https://pv.dropsonde.net
 	{"success":true,"data":{"version":"1.0.0"}}
 
 - Autosyncs every 10 minutes, and after any modifications
@@ -185,15 +185,15 @@ The security context store is the most complex part.
 	go get github.com/gokyle/keyvault/passvault/passvault-cli
 
 - Add a secret
-	passvault-cli -a pv.dropsonde.net:8443 -u <user> -f -id <name> secret.txt put
+	passvault-cli -a pv.dropsonde.net -u <user> -f -id <name> secret.txt put
 
 - Get a secret
-	passvault-cli -a pv.dropsonde.net:8443 -u <user> -id <name> get
+	passvault-cli -a pv.dropsonde.net -u <user> -id <name> get
 
 - Delete a secret
-	passvault-cli -a pv.dropsonde.net:8443 -u <user> -id <name> delete
+	passvault-cli -a pv.dropsonde.net -u <user> -id <name> delete
 
 - Provision an 8-byte secret key
-	passvault-cli -a pv.dropsonde.net:8443 -u <user> -id <name> -l 80 provision
+	passvault-cli -a pv.dropsonde.net -u <user> -id <name> -l 80 provision
 
 - Dumping the log
